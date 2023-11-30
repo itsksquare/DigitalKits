@@ -85,7 +85,8 @@ const ThankYouPage = async ({ searchParams }: PageProps) => {
               <p className="mt-2 text-base text-muted-foreground">
                 We appreciate your order, and we&apos;re currently processing
                 it. So hang tight and we&apos;ll send you a confirmation very
-                soon!
+                soon! Your items will remain in your cart, and will be cleared
+                out once the order is confirmed.
               </p>
             )}
 

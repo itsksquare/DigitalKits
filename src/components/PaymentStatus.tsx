@@ -3,6 +3,7 @@
 import { trpc } from "@/trpc/client";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useCart } from "@/hooks/use-cart";
 
 interface PaymentStatusProps {
   orderEmail: string;
@@ -12,6 +13,7 @@ interface PaymentStatusProps {
 
 const PaymentStatus = ({ orderEmail, orderId, isPaid }: PaymentStatusProps) => {
   const router = useRouter();
+  const { clearCart } = useCart();
 
   const { data } = trpc.payment.pollOrderStatus.useQuery(
     { orderId },
@@ -22,7 +24,10 @@ const PaymentStatus = ({ orderEmail, orderId, isPaid }: PaymentStatusProps) => {
   );
 
   useEffect(() => {
-    if (data?.isPaid) router.refresh();
+    if (data?.isPaid) {
+      router.refresh();
+      clearCart();
+    }
   }, [data?.isPaid, router]);
 
   return (
