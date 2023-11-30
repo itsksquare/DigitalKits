@@ -1,11 +1,17 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { useCart } from "@/hooks/use-cart";
 import { Product } from "@/payload-types";
 
 const AddToCartButton = ({ product }: { product: Product }) => {
   const { items, addItem } = useCart();
+
+  const [isMounted, setIsMounted] = useState<boolean>(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const isItemInCart =
     items.find((item) => item.product.id === product.id)?.product.id ===
@@ -18,9 +24,9 @@ const AddToCartButton = ({ product }: { product: Product }) => {
       }}
       size="lg"
       className="w-full"
-      disabled={isItemInCart}
+      disabled={isMounted && isItemInCart}
     >
-      {isItemInCart ? "Added to cart!" : "Add to cart"}
+      {isMounted && isItemInCart ? "Added to cart!" : "Add to cart"}
     </Button>
   );
 };
